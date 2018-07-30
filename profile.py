@@ -69,10 +69,12 @@ def process_doc(doc, resultmap):
 
 def flush_result_to_file(resultmap):
     print("flushing result to file: " + outputfile)
-    file = open(outputfile,"a")
 
-    if os.path.isfile(outputfile):
+    if not os.path.isfile(outputfile):
+        file = open(outputfile, "w")
         file.write("database,collection,operation,datetime,counter\n")
+    else:
+        file = open(outputfile, "a")
 
     for key in resultmap:
         line = key + "," + str(resultmap[key]) + "\n"
