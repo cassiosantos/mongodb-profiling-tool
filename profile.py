@@ -9,6 +9,8 @@ from pymongo.errors import AutoReconnect
 import getpass
 import argparse
 
+import os.path
+
 # Time to wait for data or connection.
 _SLEEP = 1
 _HOUR_MASK = "%Y-%m-%dT%H"
@@ -68,6 +70,9 @@ def process_doc(doc, resultmap):
 def flush_result_to_file(resultmap):
     print("flushing result to file: " + outputfile)
     file = open(outputfile,"a")
+
+    if os.path.isfile(outputfile):
+        file.write("database,collection,operation,datetime,counter\n")
 
     for key in resultmap:
         line = key + "," + str(resultmap[key]) + "\n"
